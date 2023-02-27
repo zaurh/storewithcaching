@@ -10,6 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.store.presentation.product.ProductView
 import com.example.store.presentation.product_list.components.ProductListView
 import com.example.store.ui.theme.StoreTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,9 +29,22 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    ProductListView()
+                    Navig()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun Navig(){
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "product_list"){
+        composable("product_list"){
+            ProductListView(navController = navController)
+        }
+        composable("product/{id}"){
+            ProductView()
         }
     }
 }

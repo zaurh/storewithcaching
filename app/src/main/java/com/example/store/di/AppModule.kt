@@ -1,10 +1,12 @@
 package com.example.store.di
 
+import android.app.Application
+import androidx.room.Room
 import com.example.store.common.Constants.BASE_URL
+import com.example.store.data.local.ProductDatabase
 import com.example.store.data.remote.StoreApi
 import com.example.store.data.repository.RepositoryImpl
 import com.example.store.domain.repository.Repository
-import com.example.store.domain.use_case.GetProductListUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,9 +35,20 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideRepository(api: StoreApi): Repository = RepositoryImpl(api)
+    fun provideRepository(
+        api: StoreApi,
+        productListDatabase: ProductDatabase,
+    ): Repository =
+        RepositoryImpl(api,productListDatabase.productListDao())
 
     @Singleton
     @Provides
-    fun provideUseCase(repository: Repository) = GetProductListUseCase(repository)
+    fun provideProductListDatabase(app: Application): ProductDatabase {
+        return Room.databaseBuilder(
+            app,
+            ProductDatabase::class.java,
+            "product_db"
+        ).build()
+    }
+
 }

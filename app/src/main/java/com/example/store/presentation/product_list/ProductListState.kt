@@ -7,3 +7,5 @@ data class ProductListState(
     val error: String = "",
     var isLoading: Boolean = false
 )
+
+

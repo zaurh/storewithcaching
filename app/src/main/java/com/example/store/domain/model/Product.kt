@@ -1,6 +1,6 @@
 package com.example.store.domain.model
 
-data class ProductList(
+data class Product(
     val category: String,
     val description: String,
     val id: Int,
